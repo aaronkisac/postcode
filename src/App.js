@@ -10,24 +10,24 @@ export default function App() {
   const isPostCodeValid = async (postcode) => {
     try {
       const res = await fetchData(`${postcode}/validate`);
-      !res.data.result && toast.error("Validation: Postcode is not valid!");
-      return res.data.result;
+      !res.result && toast.error("Validation: Postcode is not valid!");
+      return res.result;
     } catch (error) {
       toast.error(`Validation: ${error.message}`);
     }
   };
 
-  const getAutoComplate = async (postcode = "sw13") => {
+  const getAutoComplete = async (postcode = "sw13") => {
     try {
       const res = await fetchData(`${postcode}/autocomplete`);
-      res?.data?.result &&
-        setOptions(res?.data?.result?.map((item) => ({ postcode: item })));
+      res?.result?.length &&
+        setOptions(res?.result?.map((item) => ({ postcode: item })));
     } catch (error) {
-      toast.error(`Autocomplate: ${error.message}`);
+      toast.error(`AutoComplete: ${error.message}`);
     }
   };
   useEffect(() => {
-    getAutoComplate();
+    getAutoComplete();
   }, []);
 
   return (
@@ -35,7 +35,7 @@ export default function App() {
       <h4>Enter a valid postcode </h4>
       <ComboBox
         options={options}
-        getOptions={getAutoComplate}
+        getOptions={getAutoComplete}
         isPostCodeValid={isPostCodeValid}
       />
     </div>

@@ -6,29 +6,35 @@ import * as yup from "yup";
 import _ from "lodash";
 import { useHistory } from "react-router-dom";
 
-export default function ComboBox({
-  options = [],
-  getOptions,
-  getPostCodeDetails,
-  isPostCodeValid
-}) {
+export default function ComboBox({ options, getOptions, isPostCodeValid }) {
   const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
-      postcode: ""
+      postcode: "",
     },
     validationSchema: yup.object().shape({
-      postcode: yup.string().min(5, "min 5 caracter").max(7, "max 7 caracter")
+      postcode: yup
+        .string()
+        .min(5, "min 5 character")
+        .max(8, "max 8 character"),
     }),
     onSubmit: (values) => {
-      isPostCodeValid(formik.values.postcode).then(() => {
-        history.entries = [];
-        history.index = -1;
+      isPostCodeValid(formik.values.postcode).then((isValid) => {
+        if (isValid) {
+          history.entries = [];
+          history.index = -1;
 
-        history.push(`postcodes/${formik.values.postcode}`);
+          history.push(
+            `postcodes/${formik.values.postcode.split(" ").join("")}`
+          );
+        } else {
+          formik.errors.postcode = { message: "Invalid Postcode" };
+          formik.dirty = true;
+          handleOnBlur();
+        }
       });
-    }
+    },
   });
   const getFilteredOptions = useCallback(
     _.debounce((postcode) => getOptions(postcode), 500),
@@ -60,7 +66,7 @@ export default function ComboBox({
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Postcode 'SW1A 1AA'"
+            label="Postcode"
             variant="outlined"
             error={formik.touched.postcode && Boolean(formik.errors.postcode)}
           />

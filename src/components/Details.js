@@ -7,8 +7,8 @@ import { fetchData } from "../service/fetchData";
 import CardForPostcodeDetails from "./CardForPostcodeDetails";
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 export default function Details() {
   const [result, setResult] = useState({});
@@ -20,17 +20,17 @@ export default function Details() {
   const getPostCodeDetails = async (postcode) => {
     try {
       const res = await fetchData(postcode);
-      setResult(res.data.result);
+      setResult(res?.result);
     } catch (error) {
-      toast.error(`Poscode details: ${error.message}`);
+      toast.error(`Postcode details: ${error.message}`);
     }
   };
   const getNearestPostcodes = async (postcode) => {
     try {
       const res = await fetchData(`${postcode}/nearest`);
-      setNearestPostcodes(res.data.result);
+      setNearestPostcodes(res?.result);
     } catch (error) {
-      toast.error(`Poscode details: ${error.message}`);
+      toast.error(`Postcode details: ${error.message}`);
     }
   };
 
@@ -46,20 +46,20 @@ export default function Details() {
   return (
     <div className="App">
       <h1>Selected Postcode Details</h1>
-      <CardForPostcodeDetails poscodeDetails={result} />
+      <CardForPostcodeDetails postcodeDetails={result} />
       <h1>Nearest Postcodes List of Selected Postcode </h1>
       <Grid container className={classes.root} spacing={2}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={3}>
             {nearestPostcodes
-              ?.filter((item) => postcode !== item.postcode)
+              ?.filter((item) => postcode !== item.postcode.split(" ").join(""))
               ?.map((value) => (
                 <Grid xs={4} key={value.postcode} item>
                   <CardForPostcodeDetails
                     onClick={() => {
-                      history.push(`${value.postcode}`);
+                      history.push(`${value.postcode.split(" ").join("")}`);
                     }}
-                    poscodeDetails={value}
+                    postcodeDetails={value}
                     noMap={true}
                   />
                 </Grid>

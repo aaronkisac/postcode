@@ -8,25 +8,25 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     maxWidth: 345,
     margin: "40px auto",
-    boxShadow: "6px 6px 4px 6px rgb(0 0 0 / 12%)"
-  }
+    boxShadow: "6px 6px 4px 6px rgb(0 0 0 / 12%)",
+  },
 }));
 
 export default function CardForPostcodeDetails({
   onClick,
-  poscodeDetails,
-  noMap
+  postcodeDetails,
+  noMap,
 }) {
   const classes = useStyles();
   return (
     <Card onClick={onClick} className={classes.card}>
-      <CardHeader title={`Postcode: ${poscodeDetails.postcode}`} />
-      {noMap && <MapContainer poscodeDetails={poscodeDetails} />}
+      <CardHeader title={`Postcode: ${postcodeDetails.postcode}`} />
+      {!noMap && <MapContainer postcodeDetails={postcodeDetails} />}
       <CardContent>
         <div>
-          <Typography variant="h6">Region: {poscodeDetails.region}</Typography>
+          <Typography variant="h6">Region: {postcodeDetails.region}</Typography>
           <Typography variant="h5">
-            Country: {poscodeDetails.country}
+            Country: {postcodeDetails.country}
           </Typography>
         </div>
       </CardContent>

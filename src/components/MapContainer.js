@@ -1,27 +1,25 @@
 import React, { useMemo } from "react";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
-export default function MapContainer({ poscodeDetails }) {
+export default function MapContainer({ postcodeDetails }) {
   const mapStyles = {
-    height: "40vh",
-    width: "100%"
+    height: "20vh",
+    width: "100%",
   };
 
   const defaultCenter = useMemo(
     () => ({
-      lat: poscodeDetails.latitude || 0,
-      lng: poscodeDetails.longitude || 0
+      lat: postcodeDetails.latitude || 0,
+      lng: postcodeDetails.longitude || 0,
     }),
-    [poscodeDetails]
+    [postcodeDetails]
   );
 
   return (
     <LoadScript googleMapsApiKey="AIzaSyC0flOgpCUr9ImSbJ5AWPSiQ6LLVx9PvPo">
-      <GoogleMap
-        mapContainerStyle={mapStyles}
-        zoom={16}
-        center={defaultCenter}
-      />
+      <GoogleMap mapContainerStyle={mapStyles} zoom={16} center={defaultCenter}>
+        {<Marker position={defaultCenter} />}
+      </GoogleMap>
     </LoadScript>
   );
 }
