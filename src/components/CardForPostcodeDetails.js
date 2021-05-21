@@ -19,13 +19,20 @@ export default function CardForPostcodeDetails({
 }) {
   const classes = useStyles();
   return (
-    <Card onClick={onClick} className={classes.card}>
-      <CardHeader title={`Postcode: ${postcodeDetails.postcode}`} />
-      {!noMap && <MapContainer postcodeDetails={postcodeDetails} />}
+    <Card data-testid="cardWrapper" onClick={onClick} className={classes.card}>
+      <CardHeader
+        data-testid="cardHeader"
+        title={`Postcode: ${postcodeDetails.postcode}`}
+      />
+      <div data-testid="mapContainer">
+        {!noMap && <MapContainer postcodeDetails={postcodeDetails} />}
+      </div>
       <CardContent>
         <div>
-          <Typography variant="h6">Region: {postcodeDetails.region}</Typography>
-          <Typography variant="h5">
+          <Typography variant="h6" data-testid="region">
+            Region: {postcodeDetails.region}
+          </Typography>
+          <Typography variant="h5" data-testid="country">
             Country: {postcodeDetails.country}
           </Typography>
         </div>

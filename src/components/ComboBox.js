@@ -52,10 +52,13 @@ export default function ComboBox({ options, getOptions, isPostCodeValid }) {
     <form
       style={{ display: "flex", margin: "20px auto", width: "fit-content" }}
       onSubmit={formik.handleSubmit}
+      data-testid="comboBoxTestId"
     >
       <Autocomplete
+        data-testid="postcode"
         id="postcode"
         name="postcode"
+        
         options={options}
         getOptionLabel={(option) => option.postcode}
         getOptionSelected={(option) => option.postcode}
@@ -63,16 +66,24 @@ export default function ComboBox({ options, getOptions, isPostCodeValid }) {
         style={{ width: 300, marginRight: "10px" }}
         onInputChange={handleFilterOptions}
         onBlur={handleOnBlur}
+        ListboxProps={{ "data-testid": "list-box" }}
         renderInput={(params) => (
           <TextField
             {...params}
+            data-testid="postcodeLabel"
             label="Postcode"
             variant="outlined"
             error={formik.touched.postcode && Boolean(formik.errors.postcode)}
           />
         )}
       />
-      <Button type="submit" variant="contained" size="large" color="primary">
+      <Button
+        data-testid="postcodeSubmitButton"
+        type="submit"
+        variant="contained"
+        size="large"
+        color="primary"
+      >
         Submit
       </Button>
     </form>
