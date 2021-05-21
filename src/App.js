@@ -17,7 +17,7 @@ export default function App() {
     }
   };
 
-  const getAutoComplete = async (postcode = "sw13") => {
+  const getAutoComplete = async (postcode) => {
     try {
       const res = await fetchData(`${postcode}/autocomplete`);
       res?.result?.length &&
